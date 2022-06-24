@@ -13,9 +13,11 @@ const WordRelayHook=()=>{
             setWord(value);
             setValue('');
             setResult("정답");
+            inputRef.current.focus();
         }else{
             setValue('');
             setResult("땡");
+            inputRef.current.focus();
         }
     };
 
@@ -29,7 +31,7 @@ const WordRelayHook=()=>{
         <>
             <div>{word}</div>
             <form onSubmit={onSubmit}>
-                <input ref={inputRef} value={value} onChange={onChangeInput}/>
+                <input ref={inputRef} value={value} onChange={(e)=>setValue(e.currentTarget.value)}/>
                 <button>입력!</button>
             </form>
             <div>{result}</div>
