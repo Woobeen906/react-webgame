@@ -1,12 +1,13 @@
-import React , {Component} from 'react';
+import React, {Component} from 'react';
 
-class Try extends Component{
+class Try extends Component {
 
-    render(){
-        return(
+    render() {
+        const {tryInfo} = this.props;
+        return (
             <li>
-                <b>{this.props.tryInfo.try}</b><br/>
-                <b>{this.props.tryInfo.result}</b>
+                <b>{tryInfo.try}</b><br/>
+                <b>{tryInfo.result}</b>
             </li>
         )
     }
