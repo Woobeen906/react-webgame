@@ -1,14 +1,16 @@
-import React, {Component} from 'react';
+import React, {memo} from 'react';
 
 
-const Try=({tryInfo})=>{
-    return(
+const Try = memo(({tryInfo}) => {
+    return (
         <li>
             <b>{tryInfo.try}</b><br/>
             <b>{tryInfo.result}</b>
         </li>
     )
-}
+});
+
+Try.displayName='aa';
 
 // class Try extends Component {
 //
