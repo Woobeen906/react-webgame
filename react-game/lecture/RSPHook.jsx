@@ -1,4 +1,5 @@
 import React, {memo, useEffect, useRef, useState} from 'react';
+import useInterval from "./useInterval";
 
 const rspCoords = {
     바위: '0',
@@ -27,7 +28,16 @@ const RspHook = memo(() => {
     const [result, setResult] = useState('');
     const [imgCoord, setImgCoord] = useState(rspCoords.바위);
     const [score, setScore] = useState(0);
-    const interval = useRef();
+    const [isRunning, setIsRunnig] = useState(true);
+
+    // const interval = useRef();
+    //
+    // useEffect(() => {   //componentDidMount, componentDidUpdate 역할 (1대1 대응은 아님)
+    //     interval.current = setInterval(changeHand, 1000);
+    //     return () => { //componentWiiUnmount 역할
+    //         clearInterval(interval.current);
+    //     }
+    // }, [imgCoord])
 
     const changeHand = () => {
         if (imgCoord === rspCoords.바위) {
@@ -39,29 +49,29 @@ const RspHook = memo(() => {
         }
     };
 
-    useEffect(() => {   //componentDidMount, componentDidUpdate 역할 (1대1 대응은 아님)
-        interval.current = setInterval(changeHand, 1000);
-        return () => { //componentWiiUnmount 역할
-            clearInterval(interval.current);
-        }
-    }, [imgCoord])
+    useInterval(changeHand, isRunning ? 100 : null);
 
     const onClickBtn = (choice) => () => {
-        clearInterval(interval.current);
-        const myScore = scores[choice];
-        const cpuScore = scores[computerChoice(imgCoord)];
-        const diff = myScore - cpuScore;
-        if (diff === 0) {
-            setResult('비겼습니다.');
-        } else if ([-1, 2].includes(diff)) {
-            setResult('이겼습니다.');
-            setScore((prevScore) => prevScore + 1)
-        } else {
-            setResult('졌습니다.');
-            setScore((prevScore) => prevScore - 1)
+        if (isRunning) { // 멈췄을 때 클릭이 안되도록
+            // clearInterval(interval.current);
+            setIsRunnig(false);
+
+            const myScore = scores[choice];
+            const cpuScore = scores[computerChoice(imgCoord)];
+            const diff = myScore - cpuScore;
+            if (diff === 0) {
+                setResult('비겼습니다.');
+            } else if ([-1, 2].includes(diff)) {
+                setResult('이겼습니다.');
+                setScore((prevScore) => prevScore + 1)
+            } else {
+                setResult('졌습니다.');
+                setScore((prevScore) => prevScore - 1)
+            }
         }
         setTimeout(() => {
-            interval.current = setInterval(changeHand, 100)
+            // interval.current = setInterval(changeHand, 100)
+            setIsRunnig(true);
         }, 1000)
     }
 
