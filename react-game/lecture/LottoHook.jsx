@@ -24,6 +24,18 @@ const LottoHook = () => {
     const [redo, setRedo] = useState(false);
     const timeouts = useRef([]);
 
+    useEffect(()=>{
+        // ajax
+    },[]);
+
+    const mounted=useRef(false);
+    useEffect(()=>{
+        if(!mounted.current){
+            mounted.current=true;
+        }
+        // ajax
+    },[redo]); // componentDidUpdate만 동작하고, componentDidMount는 동작안하고 싶을때
+
     const runTimeouts = () => {
         for (let i = 0; i < winNumbers.length - 1; i++) {
             timeouts.current[i] = setTimeout(() => {
