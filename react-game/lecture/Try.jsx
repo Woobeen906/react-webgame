@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, Component} from 'react';
 
 
 const Try = memo(({tryInfo}) => {
